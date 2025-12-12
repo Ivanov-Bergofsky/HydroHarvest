@@ -9,327 +9,629 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome for Icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Chart.js Library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
     <style>
         :root {
-            --primary-blue: #0d6efd;
-            --eco-green: #198754;
-            --light-bg: #f8f9fa;
-            --dark-text: #212529;
+            /* Vibrant, catchy nature-themed palette */
+            --primary-blue: #0077b6; /* Ocean Blue */
+            --primary-light: #48cae4; /* Sky Blue */
+            --eco-green: #2d6a4f;     /* Deep Forest */
+            --eco-light: #52b788;     /* Fresh Leaf */
+            --accent-yellow: #ffb703; /* Sun */
+            
+            /* Theme Variables (Light Mode Default) */
+            --light-bg: #e0f7fa;      
+            --bg-body: #f8f9fa;
+            --text-main: #1b263b;
+            --text-muted: #6c757d;
+            --glass-bg: rgba(255, 255, 255, 0.65);
+            --glass-border: rgba(255, 255, 255, 0.5);
+            --nav-bg: rgba(255, 255, 255, 0.75);
+            --card-shadow: rgba(31, 38, 135, 0.1);
+        }
+
+        /* Dark Mode Overrides */
+        [data-theme="dark"] {
+            --light-bg: #1e293b; /* Dark Slate */
+            --bg-body: #0f172a;  /* Dark Blue-Grey */
+            --text-main: #e2e8f0;
+            --text-muted: #94a3b8;
+            --glass-bg: rgba(30, 41, 59, 0.75);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --nav-bg: rgba(15, 23, 42, 0.85);
+            --card-shadow: rgba(0, 0, 0, 0.4);
+        }
+
+        /* Global Dark Mode Fixes for Bootstrap */
+        [data-theme="dark"] .bg-light {
+            background-color: #1e293b !important;
+        }
+        [data-theme="dark"] .text-dark {
+            color: #f8f9fa !important;
+        }
+        [data-theme="dark"] .text-muted {
+            color: var(--text-muted) !important;
+        }
+        [data-theme="dark"] .card, 
+        [data-theme="dark"] .modal-content {
+            background-color: var(--glass-bg);
+            color: var(--text-main);
         }
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             scroll-behavior: smooth;
+            color: var(--text-main);
+            background-color: var(--bg-body);
+            overflow-x: hidden;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
-        /* Hero Section */
+        /* --- GLASSMORPHISM SYSTEM --- */
+        .glass {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 8px 32px 0 var(--card-shadow);
+            transition: background 0.3s ease;
+        }
+
+        .glass-dark {
+            background: rgba(18, 28, 45, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            color: white;
+        }
+
+        /* --- PARALLAX SYSTEM --- */
+        .parallax-section {
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            position: relative;
+        }
+
+        /* --- Animations & Effects --- */
+        .hover-lift {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .hover-lift:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+
+        /* NEW: Button Specific Hover Effect with Shine */
+        .btn-hover-effect {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            z-index: 1;
+        }
+        
+        .btn-hover-effect:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2) !important;
+        }
+
+        /* Shine animation */
+        .btn-hover-effect::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: 0.5s;
+            z-index: -1;
+        }
+
+        .btn-hover-effect:hover::after {
+            left: 100%;
+            transition: 0.5s ease-in-out;
+        }
+
+        .gradient-text {
+            background: linear-gradient(45deg, var(--primary-blue), var(--eco-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* --- Hero Section --- */
         .hero-section {
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1515694346937-94d85e41e6f0?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');
+            /* Parallax Background 1 */
+            background: linear-gradient(135deg, rgba(0, 31, 63, 0.7), rgba(20, 108, 67, 0.6)), url('https://images.unsplash.com/photo-1519692933481-e162a57d6721?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');
+            background-attachment: fixed;
             background-size: cover;
             background-position: center;
             color: white;
-            padding: 100px 0;
+            padding: 180px 0 120px;
             text-align: center;
+            position: relative;
+            overflow: hidden;
         }
 
+        .hero-glass-text {
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(4px);
+            padding: 20px;
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.2);
+            display: inline-block;
+        }
+
+        /* --- Titles & Headings --- */
         .section-padding {
-            padding: 80px 0;
+            padding: 100px 0;
         }
 
         .section-title {
             color: var(--eco-green);
-            font-weight: 700;
-            margin-bottom: 40px;
+            font-weight: 800;
+            margin-bottom: 60px;
             text-align: center;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
+            
+            /* Fix: Robust Centering */
+            display: block;
+            width: -moz-fit-content;
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+            
+            /* Glass title badge */
+            background: var(--glass-bg);
+            color: var(--eco-green);
+            padding: 10px 30px;
+            border-radius: 50px;
+            backdrop-filter: blur(5px);
+            border: 1px solid var(--glass-border);
+        }
+        
+        .section-title::after {
+            content: '';
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary-blue), var(--eco-light));
+            display: block;
+            margin: 15px auto 0;
+            border-radius: 2px;
         }
 
-        /* Cards & Icons */
+        /* --- Cards & Techniques --- */
         .technique-card {
-            transition: transform 0.3s;
-            border: none;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            /* Inherits .glass styles via class addition in HTML */
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
             height: 100%;
         }
-        .technique-card:hover {
-            transform: translateY(-10px);
-        }
-        .icon-box {
-            font-size: 3rem;
-            color: var(--primary-blue);
-            margin-bottom: 20px;
-        }
-
-        /* Tabs */
-        .nav-pills .nav-link.active {
-            background-color: var(--eco-green);
-        }
-        .nav-pills .nav-link {
-            color: var(--eco-green);
-            font-weight: 600;
-        }
-
-        /* Innovation Section */
-        .innovation-card {
-            background: var(--light-bg);
-            border-left: 5px solid var(--primary-blue);
-        }
-
-        /* Contact Map */
-        #map-container {
-            height: 300px;
+        
+        .technique-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
-            background-color: #e9ecef;
+            height: 5px;
+            background: linear-gradient(to right, var(--primary-blue), var(--eco-green));
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+            transform-origin: left;
+        }
+
+        .technique-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        /* Link colors in cards for dark mode */
+        [data-theme="dark"] .technique-card a {
+            color: var(--text-main) !important;
+        }
+
+        .icon-circle {
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.5);
+            border: 1px solid rgba(72, 202, 228, 0.3);
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 8px;
-            overflow: hidden;
+            margin: 0 auto 20px;
+            font-size: 2.5rem;
+            color: var(--primary-blue);
+            transition: all 0.3s ease;
         }
-        iframe {
-            width: 100%;
-            height: 100%;
-            border: 0;
+        
+        [data-theme="dark"] .icon-circle {
+            background: rgba(255, 255, 255, 0.1);
         }
 
-        footer {
-            background-color: #212529;
+        .technique-card:hover .icon-circle {
+            background: var(--primary-blue);
             color: white;
-            padding: 40px 0;
+            transform: rotateY(180deg);
+            border-color: transparent;
         }
+
+        /* --- Navigation --- */
+        .navbar {
+            background: var(--nav-bg) !important;
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--glass-border);
+            transition: background 0.3s ease;
+        }
+        
+        .navbar-brand { color: var(--primary-blue) !important; }
+        .nav-link { color: var(--text-main) !important; font-weight: 600; }
+        .nav-link.active { color: var(--eco-green) !important; }
+
+        /* --- Features & Categories --- */
+        .category-icon-box {
+            font-size: 8rem;
+            opacity: 0.1;
+            position: absolute;
+            right: 20px;
+            bottom: 20px;
+            z-index: 0;
+            color: var(--eco-green);
+        }
+
+        .nav-pills .nav-link {
+            border-radius: 50px;
+            padding: 12px 30px;
+            font-weight: 600;
+            color: var(--eco-green);
+            background: var(--glass-bg); /* Glassy tabs */
+            backdrop-filter: blur(5px);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin: 0 10px;
+            border: 1px solid var(--glass-border);
+            transition: all 0.3s;
+        }
+
+        [data-theme="dark"] .nav-pills .nav-link:not(.active) {
+            color: var(--text-main);
+        }
+
+        .nav-pills .nav-link.active {
+            background: linear-gradient(45deg, var(--eco-green), var(--eco-light));
+            color: white;
+            box-shadow: 0 10px 20px rgba(45, 106, 79, 0.3);
+            border-color: transparent;
+        }
+
+        /* --- Latest Developments (Parallax Section) --- */
+        #innovations {
+            /* Parallax Background 2: High tech city rain */
+            background-image: url('https://images.unsplash.com/photo-1515549832467-b39d3447cd1e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');
+        }
+
+        .tech-badge {
+            background: var(--accent-yellow);
+            color: #000;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        /* --- Calculator (Parallax Section) --- */
+        #calculator-bg {
+             /* Parallax Background 3: Water */
+            background-image: url('https://images.unsplash.com/photo-1541888946425-d81bb19240f5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');
+            padding: 120px 0;
+        }
+
+        .calculator-card {
+            border-radius: 30px;
+            overflow: hidden;
+        }
+
+        .calc-input {
+            border: 1px solid var(--glass-border);
+            padding: 15px;
+            border-radius: 10px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(5px);
+            color: var(--text-main);
+        }
+        
+        [data-theme="dark"] .calc-input {
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .calc-input:focus {
+            background: rgba(255,255,255,0.9);
+            box-shadow: 0 0 15px rgba(255,255,255,0.5);
+        }
+        
+        [data-theme="dark"] .calc-input:focus {
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+        }
+
+        /* --- Contact (Parallax Section) --- */
+        #contact {
+            /* Parallax Background 4: Nature/Forest */
+            background-image: url('https://images.unsplash.com/photo-1473448912268-2022ce9509d8?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');
+        }
+
+        /* --- Footer --- */
+        footer {
+            background: rgba(17, 17, 17, 0.95);
+            backdrop-filter: blur(10px);
+            color: #aaa;
+            padding: 80px 0 30px;
+        }
+        
+        .social-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            transition: all 0.3s;
+            text-decoration: none;
+            backdrop-filter: blur(2px);
+        }
+        
+        .social-btn:hover {
+            background: var(--primary-light);
+            transform: scale(1.1);
+        }
+
+        /* --- Map --- */
+        #map-container {
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            border: 5px solid var(--glass-border);
+        }
+
+        /* --- Fun Fact Card Animation --- */
+        #funFactText {
+            min-height: 80px;
+            transition: opacity 0.3s ease;
+        }
+        .fade-out {
+            opacity: 0;
+        }
+        
+        /* Modal Glass */
+        .modal-content {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+        }
+
+        /* --- MOBILE RESPONSIVENESS & MEDIA QUERIES --- */
+        @media (max-width: 991px) {
+            .navbar-collapse {
+                background: var(--nav-bg);
+                padding: 20px;
+                border-radius: 15px;
+                margin-top: 10px;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            }
+        }
+
+        @media (max-width: 768px) {
+            /* Fix Typography */
+            h1.display-2 {
+                font-size: 2.5rem;
+            }
+            .lead {
+                font-size: 1.1rem;
+            }
+            
+            /* Fix Spacing */
+            .hero-section {
+                padding: 120px 0 80px; 
+            }
+            .section-padding {
+                padding: 60px 0;
+            }
+
+            /* Disable Fixed Parallax on Mobile for Performance/Jitter issues */
+            .parallax-section, .hero-section {
+                background-attachment: scroll; 
+            }
+
+            /* Adjust Glass Effect for Mobile Performance */
+            .glass, .glass-dark, .technique-card {
+                backdrop-filter: blur(8px); 
+            }
+
+            /* Decor Icons */
+            .category-icon-box {
+                font-size: 5rem; 
+                bottom: 10px;
+                right: 10px;
+            }
+            
+            /* Ensure Map Height */
+            #map-container {
+                min-height: 300px; 
+            }
+            
+            /* Calculator Padding */
+            .calculator-card {
+                padding: 2rem !important;
+            }
+        }
+
     </style>
 </head>
 <body data-bs-spy="scroll" data-bs-target="#main-nav" data-bs-offset="100">
 
-    <!-- Navigation -->
-    <nav id="main-nav" class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top shadow">
+    <!-- Navigation (Glassmorphic) -->
+    <nav id="main-nav" class="navbar navbar-expand-lg fixed-top shadow-sm">
         <div class="container">
-            <a class="navbar-brand" href="#home"><i class="fas fa-cloud-showers-heavy text-info"></i> HydroHarvest</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
+            <a class="navbar-brand fw-bold fs-3" href="#home">
+                <i class="fas fa-cloud-rain text-info me-2"></i>HydroHarvest
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon text-dark"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
+                <ul class="navbar-nav ms-auto text-uppercase small ls-1 align-items-center">
                     <li class="nav-item"><a class="nav-link active" href="#home">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="#techniques">Techniques</a></li>
                     <li class="nav-item"><a class="nav-link" href="#categories">Solutions</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#products">Products</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#facts">Facts</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#guide">Guide</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#innovations">Innovations</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#usage">Effective Use</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#calculator-bg">Calculator</a></li>
                     <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                    <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
+                        <button class="btn btn-sm btn-outline-primary rounded-circle" onclick="toggleTheme()" aria-label="Toggle Dark Mode" style="width: 35px; height: 35px;">
+                            <i class="fas fa-moon" id="theme-icon"></i>
+                        </button>
+                    </li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <!-- 1. Home Page / Banner -->
-    <header id="home" class="hero-section">
-        <div class="container">
-            <h1 class="display-3 fw-bold">Save Water, Secure the Future</h1>
-            <p class="lead mb-4">Effective Rainwater Harvesting Solutions for Residential & Commercial Needs</p>
-            <div class="d-flex justify-content-center gap-3">
-                <a href="#techniques" class="btn btn-success btn-lg">Explore Techniques</a>
-                <a href="#contact" class="btn btn-outline-light btn-lg">Get in Touch</a>
+    <!-- 1. Home Page / Banner (Parallax) -->
+    <header id="home" class="hero-section d-flex align-items-center">
+        <div class="container" data-aos="fade-up" data-aos-duration="1000">
+            <div class="hero-glass-text mb-4">
+                <h1 class="display-2 fw-bold mb-0">Every Drop Counts</h1>
+            </div>
+            <p class="lead mb-5 mx-auto text-white fw-bold text-shadow" style="max-width: 800px; text-shadow: 0 2px 4px rgba(0,0,0,0.5);">
+                Advanced rainwater harvesting solutions for a sustainable future. 
+                Turn nature's gift into your daily resource.
+            </p>
+            <div class="d-flex justify-content-center gap-3 flex-column flex-sm-row">
+                <!-- Added btn-hover-effect -->
+                <a href="#techniques" class="btn btn-light text-primary btn-lg px-5 rounded-pill shadow fw-bold btn-hover-effect glass border-0 text-dark">Explore Methods</a>
+                <a href="#contact" class="btn btn-outline-light btn-lg px-5 rounded-pill shadow btn-hover-effect backdrop-blur">Get in Touch</a>
             </div>
         </div>
+        <div class="hero-overlay"></div>
     </header>
 
-    <!-- Intro -->
-    <section class="container py-5 text-center">
-        <div class="row justify-content-center">
-            <div class="col-lg-8">
-                <h3>Why Harvest Rainwater?</h3>
-                <p class="text-muted">Rainwater harvesting is the simple process of collecting and storing rainwater that falls onto roofs, terraces, or open grounds. It reduces reliance on municipal water supply, replenishes groundwater levels, and provides a free, sustainable water source.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- 2. Techniques Section -->
-    <section id="techniques" class="section-padding bg-light">
+    <!-- 2. Techniques Section (Req 1, 4, 7) -->
+    <section id="techniques" class="section-padding" style="background: linear-gradient(135deg, var(--bg-body) 0%, var(--light-bg) 100%);">
         <div class="container">
-            <h2 class="section-title">Harvesting Techniques</h2>
+            <h2 class="section-title" data-aos="fade-up">Harvesting Techniques</h2>
             <div class="row g-4">
                 <!-- Card 1 -->
-                <div class="col-md-4 col-sm-6">
-                    <div class="card technique-card p-4 text-center">
-                        <div class="icon-box"><i class="fas fa-home"></i></div>
-                        <h5>Rooftop Harvesting</h5>
-                        <p class="small text-muted">Collecting rain from roof surfaces and directing it to storage tanks or recharge pits.</p>
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                    <div class="card technique-card p-4 text-center hover-lift glass">
+                        <a href="#rooftop-modal" class="text-decoration-none text-dark" data-bs-toggle="modal" data-bs-target="#rooftopModal">
+                            <div class="icon-circle"><i class="fas fa-home"></i></div>
+                            <h4 class="fw-bold">Rooftop Harvesting</h4>
+                            <p class="text-muted">Direct collection from roof catchments via gutters to storage tanks.</p>
+                            <span class="text-primary small fw-bold text-uppercase">Learn More <i class="fas fa-arrow-right ms-1"></i></span>
+                        </a>
                     </div>
                 </div>
                 <!-- Card 2 -->
-                <div class="col-md-4 col-sm-6">
-                    <div class="card technique-card p-4 text-center">
-                        <div class="icon-box"><i class="fas fa-water"></i></div>
-                        <h5>Surface Runoff</h5>
-                        <p class="small text-muted">Harvesting rainwater flowing along the ground into reservoirs or tanks.</p>
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                    <div class="card technique-card p-4 text-center hover-lift glass">
+                        <a href="#" class="text-decoration-none text-dark">
+                            <div class="icon-circle"><i class="fas fa-water"></i></div>
+                            <h4 class="fw-bold">Surface Runoff</h4>
+                            <p class="text-muted">Harvesting rainwater flowing along the ground into large reservoirs.</p>
+                            <span class="text-primary small fw-bold text-uppercase">Learn More <i class="fas fa-arrow-right ms-1"></i></span>
+                        </a>
                     </div>
                 </div>
                 <!-- Card 3 -->
-                <div class="col-md-4 col-sm-6">
-                    <div class="card technique-card p-4 text-center">
-                        <div class="icon-box"><i class="fas fa-arrow-down"></i></div>
-                        <h5>Recharge Pits</h5>
-                        <p class="small text-muted">Pits filled with boulders and gravel to increase groundwater recharge.</p>
-                    </div>
-                </div>
-                <!-- Card 4 -->
-                <div class="col-md-4 col-sm-6">
-                    <div class="card technique-card p-4 text-center">
-                        <div class="icon-box"><i class="fas fa-fill-drip"></i></div>
-                        <h5>Percolation Tanks</h5>
-                        <p class="small text-muted">Artificially created surface water bodies submerged in highly permeable land.</p>
-                    </div>
-                </div>
-                <!-- Card 5 -->
-                <div class="col-md-4 col-sm-6">
-                    <div class="card technique-card p-4 text-center">
-                        <div class="icon-box"><i class="fas fa-trash-restore"></i></div>
-                        <h5>Recharge Wells</h5>
-                        <p class="small text-muted">Using existing dug wells to recharge the deep aquifers directly.</p>
-                    </div>
-                </div>
-                <!-- Card 6 -->
-                <div class="col-md-4 col-sm-6">
-                    <div class="card technique-card p-4 text-center">
-                        <div class="icon-box"><i class="fas fa-drum-steelpan"></i></div>
-                        <h5>Rain Barrels</h5>
-                        <p class="small text-muted">Simple containers to catch runoff from downspouts for garden use.</p>
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
+                    <div class="card technique-card p-4 text-center hover-lift glass">
+                        <a href="#" class="text-decoration-none text-dark">
+                            <div class="icon-circle"><i class="fas fa-arrow-down"></i></div>
+                            <h4 class="fw-bold">Recharge Pits</h4>
+                            <p class="text-muted">Porous pits filled with gravel to boost groundwater table levels.</p>
+                            <span class="text-primary small fw-bold text-uppercase">Learn More <i class="fas fa-arrow-right ms-1"></i></span>
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- 3. Categories Section -->
-    <section id="categories" class="section-padding">
-        <div class="container">
-            <h2 class="section-title">Solutions by Category</h2>
+    <!-- 3. Solutions by Category & Products (Req 2, 3) -->
+    <section id="categories" class="section-padding position-relative overflow-hidden" style="background-color: var(--light-bg);">
+        <!-- Decorative bg -->
+        <div style="position: absolute; top: -10%; left: -10%; width: 600px; height: 600px; background: linear-gradient(to right, #a1c4fd, #c2e9fb); border-radius: 50%; opacity: 0.3; filter: blur(80px); z-index: 0;"></div>
+        <div style="position: absolute; bottom: -10%; right: -10%; width: 500px; height: 500px; background: linear-gradient(to left, #d4fc79, #96e6a1); border-radius: 50%; opacity: 0.3; filter: blur(80px); z-index: 0;"></div>
+
+        <div class="container position-relative" style="z-index: 1;">
+            <h2 class="section-title" data-aos="fade-up">Solutions by Sector</h2>
             
-            <ul class="nav nav-pills mb-4 justify-content-center" id="pills-tab" role="tablist">
+            <ul class="nav nav-pills mb-5 justify-content-center" id="pills-tab" role="tablist" data-aos="zoom-in">
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="pills-res-tab" data-bs-toggle="pill" data-bs-target="#pills-res" type="button" role="tab">🏡 Residential</button>
+                    <button class="nav-link active" id="pills-res-tab" data-bs-toggle="pill" data-bs-target="#pills-res" type="button" role="tab">
+                        <i class="fas fa-home me-2"></i>Residential
+                    </button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="pills-comm-tab" data-bs-toggle="pill" data-bs-target="#pills-comm" type="button" role="tab">🏢 Commercial</button>
+                    <button class="nav-link" id="pills-comm-tab" data-bs-toggle="pill" data-bs-target="#pills-comm" type="button" role="tab">
+                        <i class="fas fa-building me-2"></i>Commercial
+                    </button>
                 </li>
             </ul>
             
             <div class="tab-content" id="pills-tabContent">
-                <!-- Residential -->
+                <!-- Residential Tab -->
                 <div class="tab-pane fade show active" id="pills-res" role="tabpanel">
-                    <div class="row align-items-center">
-                        <div class="col-md-6">
-                            <h4>For Your Home</h4>
-                            <p>Residential systems are designed to be compact and aesthetically pleasing.</p>
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item"><i class="fas fa-check text-success me-2"></i> Small Tanks & Modular Barrels</li>
-                                <li class="list-group-item"><i class="fas fa-check text-success me-2"></i> First Flush Devices</li>
-                                <li class="list-group-item"><i class="fas fa-check text-success me-2"></i> Simple Roof Filtration Units</li>
-                                <li class="list-group-item"><i class="fas fa-check text-success me-2"></i> Garden Recharge Trenches</li>
-                            </ul>
-                        </div>
-                        <div class="col-md-6 text-center">
-                            <i class="fas fa-house-user fa-10x text-muted opacity-25"></i>
-                        </div>
-                    </div>
-                </div>
-                <!-- Commercial -->
-                <div class="tab-pane fade" id="pills-comm" role="tabpanel">
-                    <div class="row align-items-center">
-                        <div class="col-md-6">
-                            <h4>For Industry & Business</h4>
-                            <p>High-volume solutions for factories, offices, and large complexes.</p>
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item"><i class="fas fa-check text-primary me-2"></i> Large Underground Tanks (Concrete)</li>
-                                <li class="list-group-item"><i class="fas fa-check text-primary me-2"></i> Deep Recharge Wells</li>
-                                <li class="list-group-item"><i class="fas fa-check text-primary me-2"></i> Commercial Grade Filters</li>
-                                <li class="list-group-item"><i class="fas fa-check text-primary me-2"></i> Stormwater Management Plans</li>
-                            </ul>
-                        </div>
-                        <div class="col-md-6 text-center">
-                            <i class="fas fa-city fa-10x text-muted opacity-25"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 4. Products Section -->
-    <section id="products" class="section-padding bg-light">
-        <div class="container">
-            <h2 class="section-title">Essential Products</h2>
-            <div class="row row-cols-1 row-cols-md-3 g-4">
-                <div class="col">
-                    <div class="card h-100">
-                        <div class="card-body">
-                            <h5 class="card-title text-primary">First Flush Diverter</h5>
-                            <p class="card-text">Flushes off the first spell of rain which carries dirt and dust from the roof, ensuring cleaner water enters the tank.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card h-100">
-                        <div class="card-body">
-                            <h5 class="card-title text-primary">Leaf Eaters / Gutters</h5>
-                            <p class="card-text">PVC or GI gutters with mesh guards to prevent leaves and debris from clogging the conveyance system.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card h-100">
-                        <div class="card-body">
-                            <h5 class="card-title text-primary">Filtration Units</h5>
-                            <p class="card-text">Sand, carbon, or fabric filters that remove fine sediments and impurities before storage.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 5. Facts & Methods (Accordion) -->
-    <section id="facts" class="section-padding">
-        <div class="container">
-            <h2 class="section-title">Facts & Methodology</h2>
-            <div class="row">
-                <div class="col-lg-6 mb-4">
-                    <h4 class="mb-3">Did You Know?</h4>
-                    <ul class="list-unstyled">
-<!-- Place this AFTER the Products Section and BEFORE the Facts Section -->
-
-    <!-- Calculator Section -->
-    <section id="calculator" class="section-padding bg-primary bg-gradient text-white">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-8 text-center">
-                    <h2 class="fw-bold mb-4">🧮 Calculate Your Water Potential</h2>
-                    <p class="mb-5">Find out how many liters of water you can harvest from your own roof annually.</p>
-                    
-                    <div class="card text-dark shadow-lg">
-                        <div class="card-body p-5">
-                            <div class="row g-3">
-                                <div class="col-md-6">
-                                    <label for="roofArea" class="form-label fw-bold">Roof Area (sq. meters)</label>
-                                    <input type="number" class="form-control form-control-lg" id="roofArea" placeholder="e.g. 100">
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="rainfall" class="form-label fw-bold">Avg. Rainfall (mm)</label>
-                                    <input type="number" class="form-control form-control-lg" id="rainfall" placeholder="e.g. 800">
-                                </div>
-                                <div class="col-12 mt-4">
-                                    <button onclick="calculateWater()" class="btn btn-success btn-lg w-100 fw-bold">Calculate Savings</button>
-                                </div>
-                            </div>
+                    <div class="row align-items-center glass p-4 p-lg-5 rounded-4 position-relative">
+                        <i class="fas fa-leaf category-icon-box"></i>
+                        <div class="col-lg-6" data-aos="fade-right">
+                            <h3 class="fw-bold text-success mb-3">Home Solutions</h3>
+                            <p class="text-muted mb-4">Compact, aesthetic, and efficient systems designed for urban and rural households. Reduce your water bills and maintain a green garden all year round.</p>
                             
-                            <div id="resultBox" class="mt-4 p-3 bg-light rounded d-none">
-                                <h4 class="mb-0">You can harvest approximately:</h4>
-                                <h2 class="text-primary fw-bold display-4 my-2"><span id="litersResult">0</span> Liters</h2>
-                                <p class="text-muted small mb-0">per year (assuming 90% runoff coefficient)</p>
+                            <h5 class="fw-bold mb-3"><i class="fas fa-box-open text-warning me-2"></i>Recommended Products:</h5>
+                            <div class="d-flex flex-wrap gap-2 mb-4 mb-lg-0">
+                                <span class="badge bg-white text-dark border p-2 shadow-sm">Modular Rain Barrels</span>
+                                <span class="badge bg-white text-dark border p-2 shadow-sm">First Flush Diverters</span>
+                                <span class="badge bg-white text-dark border p-2 shadow-sm">Leaf Guards</span>
+                                <span class="badge bg-white text-dark border p-2 shadow-sm">Tap Filters</span>
                             </div>
+                        </div>
+                        <div class="col-lg-6" data-aos="fade-left">
+                            <img src="https://images.unsplash.com/photo-1621257321590-b6f7922d23f7?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Home Rainwater Tank" class="img-fluid rounded-3 shadow w-100">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Commercial Tab -->
+                <div class="tab-pane fade" id="pills-comm" role="tabpanel">
+                    <div class="row align-items-center glass p-4 p-lg-5 rounded-4 position-relative">
+                        <i class="fas fa-city category-icon-box"></i>
+                        <div class="col-lg-6 order-lg-2" data-aos="fade-left">
+                            <h3 class="fw-bold text-primary mb-3">Industrial & Commercial</h3>
+                            <p class="text-muted mb-4">High-capacity infrastructure for factories, malls, and offices. Meet corporate social responsibility goals and manage stormwater effectively.</p>
+                            
+                            <h5 class="fw-bold mb-3"><i class="fas fa-cogs text-warning me-2"></i>Recommended Products:</h5>
+                            <div class="d-flex flex-wrap gap-2 mb-4 mb-lg-0">
+                                <span class="badge bg-white text-dark border p-2 shadow-sm">Underground Concrete Sumps</span>
+                                <span class="badge bg-white text-dark border p-2 shadow-sm">Industrial Sand Filters</span>
+                                <span class="badge bg-white text-dark border p-2 shadow-sm">Vortex Filters</span>
+                                <span class="badge bg-white text-dark border p-2 shadow-sm">Pumping Stations</span>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 order-lg-1" data-aos="fade-right">
+                            <img src="https://images.unsplash.com/photo-1594498653385-d5175c532d38?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Commercial System" class="img-fluid rounded-3 shadow w-100">
                         </div>
                     </div>
                 </div>
@@ -337,26 +639,489 @@
         </div>
     </section>
 
-    <!-- 6. Usage Guide -->
-    <!-- Add this function inside your <script> tag at the bottom -->
-    <script>
-        // ... existing Geolocation scripts ...
+    <!-- 4. Latest Developments (Req 6) - Parallax -->
+    <section id="innovations" class="section-padding parallax-section">
+        <div class="container">
+            <h2 class="section-title text-white" data-aos="fade-up" style="background: rgba(0,0,0,0.5);">Latest Innovations</h2>
+            <div class="row g-4">
+                <div class="col-md-4" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="p-4 rounded-3 h-100 glass-dark hover-lift">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <i class="fas fa-wifi fa-2x text-info"></i>
+                            <span class="tech-badge">Smart Tech</span>
+                        </div>
+                        <h4 class="text-white">IoT Tank Monitoring</h4>
+                        <p class="text-light opacity-75">Real-time water level tracking via smartphone apps, leak detection alerts, and automated pump control.</p>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="p-4 rounded-3 h-100 glass-dark hover-lift">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <i class="fas fa-microscope fa-2x text-warning"></i>
+                            <span class="tech-badge">Filtration</span>
+                        </div>
+                        <h4 class="text-white">Nanotech Filters</h4>
+                        <p class="text-light opacity-75">New graphene-based filtration membranes that remove bacteria and viruses without chemical treatment.</p>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="zoom-in" data-aos-delay="300">
+                    <div class="p-4 rounded-3 h-100 glass-dark hover-lift">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <i class="fas fa-road fa-2x text-success"></i>
+                            <span class="tech-badge">Infrastructure</span>
+                        </div>
+                        <h4 class="text-white">Permeable Pavement</h4>
+                        <p class="text-light opacity-75">Advanced road materials that allow rain to soak directly into the ground, reducing flood risks in cities.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
+    <!-- 5. Effective Usage (Req 5) -->
+    <section id="usage" class="section-padding" style="background-color: var(--bg-body);">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">Effective Water Usage</h2>
+            <div class="row">
+                <div class="col-lg-6" data-aos="fade-right">
+                    <img src="https://images.unsplash.com/photo-1558449028-b53a39d100fc?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" class="img-fluid rounded-4 shadow mb-4" alt="Garden Watering">
+                </div>
+                <div class="col-lg-6 ps-lg-5" data-aos="fade-left">
+                    <h3 class="mb-4 fw-bold">Maximize Every Liter</h3>
+                    <p class="lead">Harvested water is precious. Here is how to use it effectively:</p>
+                    <ul class="list-unstyled">
+                        <li class="mb-3 d-flex align-items-start">
+                            <i class="fas fa-check-circle text-success mt-1 me-3 fa-lg"></i>
+                            <div><strong>Landscape Irrigation:</strong> Connect rain barrels to drip irrigation systems. Plants prefer rainwater over chlorinated tap water.</div>
+                        </li>
+                        <li class="mb-3 d-flex align-items-start">
+                            <i class="fas fa-check-circle text-success mt-1 me-3 fa-lg"></i>
+                            <div><strong>Toilet Flushing:</strong> Pipe filtered rainwater to toilet cisterns. This can save up to 30% of household water usage.</div>
+                        </li>
+                        <li class="mb-3 d-flex align-items-start">
+                            <i class="fas fa-check-circle text-success mt-1 me-3 fa-lg"></i>
+                            <div><strong>Laundry:</strong> Use filtered rainwater for washing machines. It's soft water, meaning you need less detergent and it's better for fabrics.</div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. Calculator (Interactive) - Parallax -->
+    <div id="calculator-bg" class="parallax-section" data-aos="fade">
+        <div class="container">
+            <div class="calculator-card glass p-4 p-lg-5 shadow-lg">
+                <div class="row align-items-center">
+                    <div class="col-lg-5 mb-4 mb-lg-0">
+                        <h2 class="fw-bold"><i class="fas fa-calculator me-2"></i>Water Savings Calculator</h2>
+                        <p>Enter your roof dimensions and local rainfall to estimate your harvesting potential.</p>
+                    </div>
+                    <div class="col-lg-7">
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <input type="number" id="roofArea" class="form-control calc-input" placeholder="Roof Area (m²)">
+                            </div>
+                            <div class="col-md-4">
+                                <input type="number" id="rainfall" class="form-control calc-input" placeholder="Rainfall (mm)">
+                            </div>
+                            <div class="col-md-4">
+                                <!-- Added btn-hover-effect -->
+                                <button onclick="calculateWater()" class="btn btn-warning w-100 fw-bold h-100 shadow rounded-3 text-uppercase btn-hover-effect">Calculate</button>
+                            </div>
+                        </div>
+                        <div id="resultDisplay" class="mt-3 text-center fw-bold fs-4 d-none p-3 rounded-3" style="background: rgba(255,255,255,0.5);">
+                            Potential Harvest: <span class="text-primary display-6" id="litersResult">0</span> Liters/Year
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 7. Facts Section (Req 4) -->
+    <section id="facts" class="section-padding" style="background: linear-gradient(135deg, var(--bg-body) 0%, var(--light-bg) 100%);">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">Facts & Methodology</h2>
+            
+            <!-- Counters Row -->
+            <div class="row g-4 mb-5">
+                <div class="col-md-3 col-6 text-center" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="p-4 glass rounded-circle shadow-sm d-inline-block mb-3 hover-lift" style="width: 150px; height: 150px; display: flex; align-items: center; justify-content: center; flex-direction: column;">
+                        <h2 class="fw-bold text-primary"><span class="counter" data-target="1">0</span>%</h2>
+                        <small>Fresh Water Available</small>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6 text-center" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="p-4 glass rounded-circle shadow-sm d-inline-block mb-3 hover-lift" style="width: 150px; height: 150px; display: flex; align-items: center; justify-content: center; flex-direction: column;">
+                        <h2 class="fw-bold text-primary"><span class="counter" data-target="100">0</span>%</h2>
+                        <small>Mains Reduction Possible</small>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6 text-center" data-aos="zoom-in" data-aos-delay="300">
+                    <div class="p-4 glass rounded-circle shadow-sm d-inline-block mb-3 hover-lift" style="width: 150px; height: 150px; display: flex; align-items: center; justify-content: center; flex-direction: column;">
+                        <h2 class="fw-bold text-primary"><span class="counter" data-target="600">0</span>L</h2>
+                        <small>Avg. Daily Use (Family of 4)</small>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6 text-center" data-aos="zoom-in" data-aos-delay="400">
+                    <div class="p-4 glass rounded-circle shadow-sm d-inline-block mb-3 hover-lift" style="width: 150px; height: 150px; display: flex; align-items: center; justify-content: center; flex-direction: column;">
+                        <h2 class="fw-bold text-primary">pH <span class="counter" data-target="6">0</span></h2>
+                        <small>Rainwater Acidity (Good for Plants)</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- New Interactive & Graph Row -->
+            <div class="row g-5 align-items-center mt-2">
+                <!-- Graph Column -->
+                <div class="col-lg-7" data-aos="fade-right">
+                    <div class="glass p-4 rounded-4 shadow-sm h-100">
+                        <h4 class="fw-bold mb-3"><i class="fas fa-chart-pie me-2 text-primary"></i>Water Consumption Breakdown</h4>
+                        <div style="position: relative; height:300px; width:100%">
+                            <canvas id="waterChart"></canvas>
+                        </div>
+                        <p class="small text-muted text-center mt-3">Comparison of mains water usage: Standard Home vs. HydroHarvest Home</p>
+                    </div>
+                </div>
+                
+                <!-- Interactive Fun Fact Column -->
+                <div class="col-lg-5" data-aos="fade-left">
+                    <div class="glass p-5 rounded-4 shadow-sm text-center h-100 d-flex flex-column justify-content-center position-relative overflow-hidden">
+                        <!-- Decor -->
+                        <i class="fas fa-lightbulb position-absolute top-0 end-0 m-3 text-warning opacity-25" style="font-size: 5rem; transform: rotate(20deg);"></i>
+                        
+                        <span class="badge bg-warning text-dark align-self-center mb-3 text-uppercase fw-bold px-3 py-2 rounded-pill shadow-sm">Did You Know?</span>
+                        
+                        <h4 class="fw-bold mb-4">Water Trivia</h4>
+                        <p class="lead mb-4 fw-medium" id="funFactText">"A running tap wastes over 6 liters of water per minute."</p>
+                        
+                        <button onclick="nextFact()" class="btn btn-primary btn-hover-effect rounded-pill w-75 mx-auto">
+                            <i class="fas fa-random me-2"></i>Next Fact
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 8. Contact & Geolocation (Req 8) - Parallax -->
+    <section id="contact" class="section-padding parallax-section">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up" style="background: rgba(255,255,255,0.7);">Visit Us</h2>
+            <div class="row g-5">
+                <div class="col-lg-5" data-aos="fade-right">
+                    <div class="glass border-0 shadow-lg p-4 h-100 rounded-4">
+                        <h3 class="fw-bold mb-4">Contact Info</h3>
+                        <div class="d-flex mb-4">
+                            <div class="me-3 text-primary"><i class="fas fa-map-marker-alt fa-2x"></i></div>
+                            <div>
+                                <h5 class="fw-bold">Head Office</h5>
+                                <p class="text-muted mb-0">123 Green Earth Avenue, Eco City, EC 45000</p>
+                            </div>
+                        </div>
+                        <div class="d-flex mb-4">
+                            <div class="me-3 text-primary"><i class="fas fa-phone-alt fa-2x"></i></div>
+                            <div>
+                                <h5 class="fw-bold">Phone</h5>
+                                <p class="text-muted mb-0">+1 (555) 123-4567</p>
+                            </div>
+                        </div>
+                        <div class="d-flex mb-4">
+                            <div class="me-3 text-primary"><i class="fas fa-envelope fa-2x"></i></div>
+                            <div>
+                                <h5 class="fw-bold">Email</h5>
+                                <p class="text-muted mb-0">info@hydroharvest.com</p>
+                            </div>
+                        </div>
+                        
+                        <hr>
+                        
+                        <h5 class="fw-bold mt-3">Find Route</h5>
+                        <p class="small text-muted">Use HTML5 Geolocation to find the path from your current location to our office.</p>
+                        <!-- Added btn-hover-effect -->
+                        <button onclick="getDirections()" class="btn btn-primary w-100 rounded-pill shadow-sm btn-hover-effect">
+                            <i class="fas fa-location-arrow me-2"></i> Get Directions to Office
+                        </button>
+                        <p id="geoStatus" class="mt-2 small text-danger"></p>
+                    </div>
+                </div>
+                <div class="col-lg-7" data-aos="fade-left">
+                    <div id="map-container" class="h-100 glass p-2" style="min-height: 400px;">
+                        <!-- Static Map Iframe -->
+                        <iframe 
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3022.184133446097!2d-73.9877319845941!3d40.74844097932847!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c259a9b3117469%3A0xd134e199a405a163!2sEmpire%20State%20Building!5e0!3m2!1sen!2sus!4v1629283084999!5m2!1sen!2sus" 
+                            width="100%" 
+                            height="100%" 
+                            style="border:0; border-radius: 15px;" 
+                            allowfullscreen="" 
+                            loading="lazy">
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container text-center">
+            <h3 class="fw-bold text-white mb-4">HydroHarvest</h3>
+            <div class="d-flex justify-content-center gap-4 mb-5">
+                <a href="#" class="social-btn"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="social-btn"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="social-btn"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-btn"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+            <p class="mb-0">&copy; 2025 HydroHarvest Solutions. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Modal for Rooftop (Example of Detail View) -->
+    <div class="modal fade" id="rooftopModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content glass">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title fw-bold">Rooftop Harvesting Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <img src="https://images.unsplash.com/photo-1518392067761-5517b62a632e?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" class="img-fluid rounded mb-3" alt="Rooftop">
+                    <p>Rooftop rainwater harvesting is the most common technique for residential areas. It involves intercepting rain falling on the roof and directing it via gutters and downpipes to a storage vessel.</p>
+                    <ul class="list-group list-group-flush bg-transparent">
+                        <li class="list-group-item bg-transparent"><i class="fas fa-check text-success me-2"></i>Easy implementation</li>
+                        <li class="list-group-item bg-transparent"><i class="fas fa-check text-success me-2"></i>Low cost</li>
+                        <li class="list-group-item bg-transparent"><i class="fas fa-check text-success me-2"></i>Water quality is generally good</li>
+                    </ul>
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <script>
+        // 1. Initialize Animation on Scroll
+        AOS.init({
+            once: true,
+            offset: 100,
+            duration: 800,
+        });
+
+        // 2. Calculator Logic
         function calculateWater() {
             const area = document.getElementById('roofArea').value;
             const rain = document.getElementById('rainfall').value;
-            const resultBox = document.getElementById('resultBox');
-            const litersSpan = document.getElementById('litersResult');
+            const resultDisplay = document.getElementById('resultDisplay');
+            const resultSpan = document.getElementById('litersResult');
             
-            if(area && rain) {
-                // Formula: Area * Rainfall * 0.9 (Runoff Coefficient)
-                const total = Math.round(area * rain * 0.9); 
-                litersSpan.innerText = total.toLocaleString(); // Adds commas (e.g., 10,000)
-                resultBox.classList.remove('d-none');
+            if(area && rain && area > 0 && rain > 0) {
+                const total = Math.round(area * rain * 0.9); // 0.9 Runoff Coeff
+                // Animate number
+                let start = 0;
+                const duration = 1000;
+                const step = timestamp => {
+                    if (!start) start = timestamp;
+                    const progress = Math.min((timestamp - start) / duration, 1);
+                    resultSpan.innerText = Math.floor(progress * total).toLocaleString();
+                    if (progress < 1) {
+                        window.requestAnimationFrame(step);
+                    }
+                };
+                window.requestAnimationFrame(step);
+                
+                resultDisplay.classList.remove('d-none');
             } else {
-                alert("Please enter both Roof Area and Rainfall values.");
+                alert("Please enter valid numbers");
             }
         }
+
+        // 3. Geolocation Logic (Req 8)
+        function getDirections() {
+            const status = document.getElementById('geoStatus');
+            const destinationLat = 40.748440; // Example: Empire State Building
+            const destinationLng = -73.987731;
+
+            if (!navigator.geolocation) {
+                status.innerText = "Geolocation is not supported by your browser.";
+                return;
+            }
+
+            status.innerText = "Locating you...";
+
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    const lat = position.coords.latitude;
+                    const lng = position.coords.longitude;
+                    
+                    // Open Google Maps with Directions
+                    const url = `https://www.google.com/maps/dir/?api=1&origin=${lat},${lng}&destination=${destinationLat},${destinationLng}`;
+                    window.open(url, '_blank');
+                    status.innerText = "";
+                },
+                () => {
+                    status.innerText = "Unable to retrieve your location. Please allow location access.";
+                }
+            );
+        }
+
+        // 4. Toggle Dark Mode
+        function toggleTheme() {
+            const body = document.body;
+            const icon = document.getElementById('theme-icon');
+            
+            // Check current theme
+            if (body.getAttribute('data-theme') === 'dark') {
+                body.removeAttribute('data-theme');
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+            }
+        }
+
+        // 5. Number Counter Animation
+        const counters = document.querySelectorAll('.counter');
+        const duration = 2000; // 2 seconds
+
+        const animateCounters = () => {
+            counters.forEach(counter => {
+                const target = +counter.getAttribute('data-target');
+                const start = 0;
+                const startTime = performance.now();
+                
+                const updateCount = (currentTime) => {
+                    const elapsed = currentTime - startTime;
+                    const progress = Math.min(elapsed / duration, 1);
+                    
+                    // Ease out quart
+                    const ease = 1 - Math.pow(1 - progress, 4);
+                    
+                    counter.innerText = Math.floor(ease * (target - start) + start);
+                    
+                    if (progress < 1) {
+                        requestAnimationFrame(updateCount);
+                    } else {
+                        counter.innerText = target;
+                    }
+                };
+                requestAnimationFrame(updateCount);
+            });
+        }
+
+        // Trigger when Facts section is in view
+        const factsSection = document.querySelector('#facts');
+        const observerOptions = {
+            root: null,
+            threshold: 0.4
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateCounters();
+                    observer.unobserve(entry.target); // Run only once
+                }
+            });
+        }, observerOptions);
+
+        if(factsSection) {
+            observer.observe(factsSection);
+        }
+
+        /* --- 6. Interactive Facts Logic --- */
+        const facts = [
+            "A running tap wastes over 6 liters of water per minute.",
+            "Rainwater is the purest form of water found in nature before it hits the roof.",
+            "1 inch of rain on a 1,000 sq ft roof yields 623 gallons of water.",
+            "Toilet flushing accounts for nearly 30% of residential indoor water use.",
+            "Rainwater harvesting reduces stormwater runoff, preventing soil erosion.",
+            "Only 3% of the world's water is fresh water, and two-thirds of that is tucked away in frozen glaciers.",
+            "A standard shower head uses 9.5 liters of water per minute.",
+            "Leaks can waste more than 3,000 gallons per year in an average household."
+        ];
+
+        function nextFact() {
+            const factText = document.getElementById('funFactText');
+            // Fade out
+            factText.classList.add('fade-out');
+            
+            setTimeout(() => {
+                // Get random fact different from current
+                let current = factText.innerText;
+                let next = facts[Math.floor(Math.random() * facts.length)];
+                while(next === current && facts.length > 1) {
+                    next = facts[Math.floor(Math.random() * facts.length)];
+                }
+                
+                factText.innerText = `"${next}"`;
+                // Fade in
+                factText.classList.remove('fade-out');
+            }, 300);
+        }
+
+        /* --- 7. Chart.js Initialization --- */
+        document.addEventListener('DOMContentLoaded', function() {
+            const ctx = document.getElementById('waterChart').getContext('2d');
+            
+            // Detect dark mode for chart colors (initial load)
+            const isDark = document.body.getAttribute('data-theme') === 'dark';
+            const textColor = isDark ? '#e2e8f0' : '#1b263b';
+            const gridColor = isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)';
+
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Toilet', 'Laundry', 'Garden', 'Cleaning'],
+                    datasets: [
+                        {
+                            label: 'Standard Mains Usage (L/day)',
+                            data: [180, 120, 200, 50],
+                            backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                            borderColor: 'rgba(255, 99, 132, 1)',
+                            borderWidth: 1,
+                            borderRadius: 5
+                        },
+                        {
+                            label: 'After Harvesting (Mains L/day)',
+                            data: [20, 10, 0, 5], // Significant reduction
+                            backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1,
+                            borderRadius: 5
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            labels: { color: textColor }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: { color: gridColor },
+                            ticks: { color: textColor }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { color: textColor }
+                        }
+                    }
+                }
+            });
+        });
     </script>
 </body>
 </html>
