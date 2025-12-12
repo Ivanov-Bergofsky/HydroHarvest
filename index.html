@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HydroHarvest | Sustainable Rainwater Solutions</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-blue: #0d6efd;
+            --eco-green: #198754;
+            --light-bg: #f8f9fa;
+            --dark-text: #212529;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1515694346937-94d85e41e6f0?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 100px 0;
+            text-align: center;
+        }
+
+        .section-padding {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            color: var(--eco-green);
+            font-weight: 700;
+            margin-bottom: 40px;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Cards & Icons */
+        .technique-card {
+            transition: transform 0.3s;
+            border: none;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            height: 100%;
+        }
+        .technique-card:hover {
+            transform: translateY(-10px);
+        }
+        .icon-box {
+            font-size: 3rem;
+            color: var(--primary-blue);
+            margin-bottom: 20px;
+        }
+
+        /* Tabs */
+        .nav-pills .nav-link.active {
+            background-color: var(--eco-green);
+        }
+        .nav-pills .nav-link {
+            color: var(--eco-green);
+            font-weight: 600;
+        }
+
+        /* Innovation Section */
+        .innovation-card {
+            background: var(--light-bg);
+            border-left: 5px solid var(--primary-blue);
+        }
+
+        /* Contact Map */
+        #map-container {
+            height: 300px;
+            width: 100%;
+            background-color: #e9ecef;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        footer {
+            background-color: #212529;
+            color: white;
+            padding: 40px 0;
+        }
+    </style>
+</head>
+<body data-bs-spy="scroll" data-bs-target="#main-nav" data-bs-offset="100">
+
+    <!-- Navigation -->
+    <nav id="main-nav" class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top shadow">
+        <div class="container">
+            <a class="navbar-brand" href="#home"><i class="fas fa-cloud-showers-heavy text-info"></i> HydroHarvest</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link active" href="#home">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#techniques">Techniques</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#categories">Solutions</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#products">Products</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#facts">Facts</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#guide">Guide</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 1. Home Page / Banner -->
+    <header id="home" class="hero-section">
+        <div class="container">
+            <h1 class="display-3 fw-bold">Save Water, Secure the Future</h1>
+            <p class="lead mb-4">Effective Rainwater Harvesting Solutions for Residential & Commercial Needs</p>
+            <div class="d-flex justify-content-center gap-3">
+                <a href="#techniques" class="btn btn-success btn-lg">Explore Techniques</a>
+                <a href="#contact" class="btn btn-outline-light btn-lg">Get in Touch</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Intro -->
+    <section class="container py-5 text-center">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <h3>Why Harvest Rainwater?</h3>
+                <p class="text-muted">Rainwater harvesting is the simple process of collecting and storing rainwater that falls onto roofs, terraces, or open grounds. It reduces reliance on municipal water supply, replenishes groundwater levels, and provides a free, sustainable water source.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. Techniques Section -->
+    <section id="techniques" class="section-padding bg-light">
+        <div class="container">
+            <h2 class="section-title">Harvesting Techniques</h2>
+            <div class="row g-4">
+                <!-- Card 1 -->
+                <div class="col-md-4 col-sm-6">
+                    <div class="card technique-card p-4 text-center">
+                        <div class="icon-box"><i class="fas fa-home"></i></div>
+                        <h5>Rooftop Harvesting</h5>
+                        <p class="small text-muted">Collecting rain from roof surfaces and directing it to storage tanks or recharge pits.</p>
+                    </div>
+                </div>
+                <!-- Card 2 -->
+                <div class="col-md-4 col-sm-6">
+                    <div class="card technique-card p-4 text-center">
+                        <div class="icon-box"><i class="fas fa-water"></i></div>
+                        <h5>Surface Runoff</h5>
+                        <p class="small text-muted">Harvesting rainwater flowing along the ground into reservoirs or tanks.</p>
+                    </div>
+                </div>
+                <!-- Card 3 -->
+                <div class="col-md-4 col-sm-6">
+                    <div class="card technique-card p-4 text-center">
+                        <div class="icon-box"><i class="fas fa-arrow-down"></i></div>
+                        <h5>Recharge Pits</h5>
+                        <p class="small text-muted">Pits filled with boulders and gravel to increase groundwater recharge.</p>
+                    </div>
+                </div>
+                <!-- Card 4 -->
+                <div class="col-md-4 col-sm-6">
+                    <div class="card technique-card p-4 text-center">
+                        <div class="icon-box"><i class="fas fa-fill-drip"></i></div>
+                        <h5>Percolation Tanks</h5>
+                        <p class="small text-muted">Artificially created surface water bodies submerged in highly permeable land.</p>
+                    </div>
+                </div>
+                <!-- Card 5 -->
+                <div class="col-md-4 col-sm-6">
+                    <div class="card technique-card p-4 text-center">
+                        <div class="icon-box"><i class="fas fa-trash-restore"></i></div>
+                        <h5>Recharge Wells</h5>
+                        <p class="small text-muted">Using existing dug wells to recharge the deep aquifers directly.</p>
+                    </div>
+                </div>
+                <!-- Card 6 -->
+                <div class="col-md-4 col-sm-6">
+                    <div class="card technique-card p-4 text-center">
+                        <div class="icon-box"><i class="fas fa-drum-steelpan"></i></div>
+                        <h5>Rain Barrels</h5>
+                        <p class="small text-muted">Simple containers to catch runoff from downspouts for garden use.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. Categories Section -->
+    <section id="categories" class="section-padding">
+        <div class="container">
+            <h2 class="section-title">Solutions by Category</h2>
+            
+            <ul class="nav nav-pills mb-4 justify-content-center" id="pills-tab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="pills-res-tab" data-bs-toggle="pill" data-bs-target="#pills-res" type="button" role="tab">🏡 Residential</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="pills-comm-tab" data-bs-toggle="pill" data-bs-target="#pills-comm" type="button" role="tab">🏢 Commercial</button>
+                </li>
+            </ul>
+            
+            <div class="tab-content" id="pills-tabContent">
+                <!-- Residential -->
+                <div class="tab-pane fade show active" id="pills-res" role="tabpanel">
+                    <div class="row align-items-center">
+                        <div class="col-md-6">
+                            <h4>For Your Home</h4>
+                            <p>Residential systems are designed to be compact and aesthetically pleasing.</p>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item"><i class="fas fa-check text-success me-2"></i> Small Tanks & Modular Barrels</li>
+                                <li class="list-group-item"><i class="fas fa-check text-success me-2"></i> First Flush Devices</li>
+                                <li class="list-group-item"><i class="fas fa-check text-success me-2"></i> Simple Roof Filtration Units</li>
+                                <li class="list-group-item"><i class="fas fa-check text-success me-2"></i> Garden Recharge Trenches</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6 text-center">
+                            <i class="fas fa-house-user fa-10x text-muted opacity-25"></i>
+                        </div>
+                    </div>
+                </div>
+                <!-- Commercial -->
+                <div class="tab-pane fade" id="pills-comm" role="tabpanel">
+                    <div class="row align-items-center">
+                        <div class="col-md-6">
+                            <h4>For Industry & Business</h4>
+                            <p>High-volume solutions for factories, offices, and large complexes.</p>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item"><i class="fas fa-check text-primary me-2"></i> Large Underground Tanks (Concrete)</li>
+                                <li class="list-group-item"><i class="fas fa-check text-primary me-2"></i> Deep Recharge Wells</li>
+                                <li class="list-group-item"><i class="fas fa-check text-primary me-2"></i> Commercial Grade Filters</li>
+                                <li class="list-group-item"><i class="fas fa-check text-primary me-2"></i> Stormwater Management Plans</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6 text-center">
+                            <i class="fas fa-city fa-10x text-muted opacity-25"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. Products Section -->
+    <section id="products" class="section-padding bg-light">
+        <div class="container">
+            <h2 class="section-title">Essential Products</h2>
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+                <div class="col">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title text-primary">First Flush Diverter</h5>
+                            <p class="card-text">Flushes off the first spell of rain which carries dirt and dust from the roof, ensuring cleaner water enters the tank.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title text-primary">Leaf Eaters / Gutters</h5>
+                            <p class="card-text">PVC or GI gutters with mesh guards to prevent leaves and debris from clogging the conveyance system.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title text-primary">Filtration Units</h5>
+                            <p class="card-text">Sand, carbon, or fabric filters that remove fine sediments and impurities before storage.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. Facts & Methods (Accordion) -->
+    <section id="facts" class="section-padding">
+        <div class="container">
+            <h2 class="section-title">Facts & Methodology</h2>
+            <div class="row">
+                <div class="col-lg-6 mb-4">
+                    <h4 class="mb-3">Did You Know?</h4>
+                    <ul class="list-unstyled">
+<!-- Place this AFTER the Products Section and BEFORE the Facts Section -->
+
+    <!-- Calculator Section -->
+    <section id="calculator" class="section-padding bg-primary bg-gradient text-white">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 text-center">
+                    <h2 class="fw-bold mb-4">🧮 Calculate Your Water Potential</h2>
+                    <p class="mb-5">Find out how many liters of water you can harvest from your own roof annually.</p>
+                    
+                    <div class="card text-dark shadow-lg">
+                        <div class="card-body p-5">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="roofArea" class="form-label fw-bold">Roof Area (sq. meters)</label>
+                                    <input type="number" class="form-control form-control-lg" id="roofArea" placeholder="e.g. 100">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="rainfall" class="form-label fw-bold">Avg. Rainfall (mm)</label>
+                                    <input type="number" class="form-control form-control-lg" id="rainfall" placeholder="e.g. 800">
+                                </div>
+                                <div class="col-12 mt-4">
+                                    <button onclick="calculateWater()" class="btn btn-success btn-lg w-100 fw-bold">Calculate Savings</button>
+                                </div>
+                            </div>
+                            
+                            <div id="resultBox" class="mt-4 p-3 bg-light rounded d-none">
+                                <h4 class="mb-0">You can harvest approximately:</h4>
+                                <h2 class="text-primary fw-bold display-4 my-2"><span id="litersResult">0</span> Liters</h2>
+                                <p class="text-muted small mb-0">per year (assuming 90% runoff coefficient)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. Usage Guide -->
+    <!-- Add this function inside your <script> tag at the bottom -->
+    <script>
+        // ... existing Geolocation scripts ...
+
+        function calculateWater() {
+            const area = document.getElementById('roofArea').value;
+            const rain = document.getElementById('rainfall').value;
+            const resultBox = document.getElementById('resultBox');
+            const litersSpan = document.getElementById('litersResult');
+            
+            if(area && rain) {
+                // Formula: Area * Rainfall * 0.9 (Runoff Coefficient)
+                const total = Math.round(area * rain * 0.9); 
+                litersSpan.innerText = total.toLocaleString(); // Adds commas (e.g., 10,000)
+                resultBox.classList.remove('d-none');
+            } else {
+                alert("Please enter both Roof Area and Rainfall values.");
+            }
+        }
+    </script>
+</body>
+</html>
